@@ -1,0 +1,77 @@
+﻿@page
+@model Salon_Frizerie_Canina.Pages.Appointments.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Appointment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Appointment.Id" />
+            <div class="form-group">
+                <label asp-for="Appointment.AppointmentDate" class="control-label"></label>
+                <input asp-for="Appointment.AppointmentDate" class="form-control" />
+                <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Appointment.AppointmentHour" class="control-label"></label>
+                <input asp-for="Appointment.AppointmentHour" class="form-control" />
+                <span asp-validation-for="Appointment.AppointmentHour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Appointment.DogId" class="control-label">Dog Name</label>
+                <select asp-for="Appointment.DogId" class="form-control" asp-items="ViewBag.DogId"></select>
+                <span asp-validation-for="Appointment.DogId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Appointment.BreedId" class="control-label">Breed name</label>
+                <select asp-for="Appointment.BreedId" class="form-control" asp-items="ViewBag.BreedId">
+                </select>
+                <span asp-validation-for="Appointment.BreedId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="table">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+                                foreach (var cat in Model.AssignedGenderDataList)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                       {
+                                            @:</tr><tr>
+                                       }
+                                    @:<td>
+                                <input type="checkbox"
+                                    name="selectedGenders"
+                                    value="@cat.GenderId"
+                                    @(Html.Raw(cat.Assigned ?
+                                    "checked=\"checked\"" : "")) />
+                                    @cat.GenderId @: @cat.Name
+                                    @:</td>
+                                }
+                                @:</tr>
+                            }
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
